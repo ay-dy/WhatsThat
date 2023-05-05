@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Text, StyleSheet, View, FlatList, Image, TouchableOpacity } from "react-native"
 import { ChatsContext } from "../store/chats-context";
+import { DraftsContext } from "../store/drafts-context";
 import { useNavigation } from "@react-navigation/native";
 
 import ChatButton from "../components/ChatButton";
@@ -8,7 +9,9 @@ import Colors from "../constants/colors";
 
 export default function ChatsScreen() {
     const chatsCtx = useContext(ChatsContext);
+    const draftsCtx = useContext(DraftsContext);
     const [chats, setChats] = useState();
+    const [drafts, setDrafts] = useState();
 
     const navigation = useNavigation();
 
@@ -16,10 +19,20 @@ export default function ChatsScreen() {
         setChats(chatsCtx.chats);
     }, [chatsCtx.chats]);
 
+    useEffect(() => {
+        setDrafts(draftsCtx.drafts);
+    }, [draftsCtx.drafts]);
+
+    function findDraft(chatId) {
+        let draft = drafts.find(draft => draft.chat_id === chatId);
+        console.log(draft);
+        return draft;
+    }
+
     function renderChat(chatInfo) {
         chatInfo = chatInfo.item;
         return (
-            <ChatButton chatInfo={chatInfo} />
+            <ChatButton chatInfo={chatInfo} draftMessageInfo={drafts ? findDraft(chatInfo.chat_id) : null} />
         )
     }
 

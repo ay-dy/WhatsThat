@@ -1,9 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { View, TextInput, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Colors from "../constants/colors";
 import MessageEditPreview from "./MessageEditPreview";
+import { DraftsContext } from "../store/drafts-context";
+import { ChatContext } from "../store/chat-context";
 
-export default function MessageInput({ onSendMessage, onUpdateMessage, messageToUpdate, onUpdateCancel, onChangeText }) {
+export default function MessageInput({
+    onSendMessage,
+    onUpdateMessage,
+    messageToUpdate,
+    onUpdatePreviewClose,
+    setMessageToDraft
+}) {
+    const chatCtx = useContext(ChatContext);
+    const draftsCtx = useContext(DraftsContext);
+
     const [input, setInput] = useState('')
     const [inputHeight, setInputHeight] = useState(21);
 
@@ -15,17 +26,40 @@ export default function MessageInput({ onSendMessage, onUpdateMessage, messageTo
 
     function resetToDefaults() {
         setInput('');
-        if (onUpdateCancel) {
-            onUpdateCancel();
+        if (onUpdatePreviewClose) {
+            onUpdatePreviewClose();
         }
+    }
+
+    function findDraft() {
+        return draftsCtx.drafts.find(draft => draft.chat_id === chatCtx.chat.chat_id);
+    }
+
+    function getMessageDraft() {
+        let draft = findDraft();
+        return draft ? draft.message : '';
+    }
+
+    function isDraftMessageToUpdate() {
+        let draft = findDraft();
+        return draft ? draft.isMessageToUpdate : '';
     }
 
     useEffect(() => {
         setInput(messageToUpdate);
     }, [messageToUpdate]);
 
+    useEffect(() => {
+        setInput(getMessageDraft());
+    }, [draftsCtx.drafts]);
+
+    useEffect(() => {
+        setMessageToDraft(input);
+    }, [input])
+
     async function submitHandler(input) {
         resetToDefaults();
+        setMessageToDraft('');
         if (onSendMessage) {
             await onSendMessage(input);
         } else {
@@ -36,16 +70,16 @@ export default function MessageInput({ onSendMessage, onUpdateMessage, messageTo
     return (
         <View style={styles.mainContainer}>
             <View style={{ width: '80%' }}>
-                {onUpdateMessage &&
+                {((isDraftMessageToUpdate() && input === getMessageDraft()) || onUpdateMessage) &&
                     <MessageEditPreview
-                        message={messageToUpdate}
+                        message={isDraftMessageToUpdate() ? getMessageDraft() : messageToUpdate}
                         closeHandler={resetToDefaults}
                     />
                 }
                 <View style={[
                     styles.messageInputContainer,
                     { height: Math.max(45, inputHeight) },
-                    onUpdateMessage ? { borderTopRightRadius: 0, borderTopLeftRadius: 0 } : null
+                    ((isDraftMessageToUpdate() && input === getMessageDraft()) || onUpdateMessage) ? { borderTopRightRadius: 0, borderTopLeftRadius: 0 } : null
                 ]}>
                     <TextInput
                         style={[styles.messageInput, { height: Math.max(21, inputHeight) }]}
@@ -55,8 +89,6 @@ export default function MessageInput({ onSendMessage, onUpdateMessage, messageTo
                         placeholderTextColor={Colors['grey']}
                         onChangeText={(input) => {
                             setInput(input);
-                            // Update message draft state in ChatScreen.
-                            onChangeText(input);
                         }}
                         onContentSizeChange={(event) => {
                             heightHandler(event.nativeEvent.contentSize.height);

@@ -30,6 +30,7 @@ import ContactContextProvider from './store/contact-context';
 import ChatsContextProvider from './store/chats-context';
 import ChatsDetailsContextProvider from './store/chats-details-context';
 import ChatContextProvider, { ChatContext } from './store/chat-context';
+import DraftsContextProvider from './store/drafts-context';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -127,17 +128,19 @@ export default function App() {
   return (
     <AuthContextProvider>
       <ContactsContextProvider>
-        <ChatsContextProvider>
-          <ChatsDetailsContextProvider>
-            <ChatContextProvider>
-              <BlockedContactsContextProvider>
-                <SettingsContextProvider>
-                  <Nav />
-                </SettingsContextProvider>
-              </BlockedContactsContextProvider>
-            </ChatContextProvider>
-          </ChatsDetailsContextProvider>
-        </ChatsContextProvider>
+        <DraftsContextProvider>
+          <ChatsContextProvider>
+            <ChatsDetailsContextProvider>
+              <ChatContextProvider>
+                <BlockedContactsContextProvider>
+                  <SettingsContextProvider>
+                    <Nav />
+                  </SettingsContextProvider>
+                </BlockedContactsContextProvider>
+              </ChatContextProvider>
+            </ChatsDetailsContextProvider>
+          </ChatsContextProvider>
+        </DraftsContextProvider>
       </ContactsContextProvider>
     </AuthContextProvider>
   );

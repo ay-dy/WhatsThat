@@ -15,6 +15,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import SpinnerOverlay from '../components/SpinnerOverlay';
 import validator from 'validator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DraftsContext } from '../store/drafts-context';
 
 export default function LoginScreen({ navigation }) {
     const [credentials, setCredentials] = useState({
@@ -36,6 +37,7 @@ export default function LoginScreen({ navigation }) {
     const blockedContactsCtx = useContext(BlockedContactsContext);
     const chatsCtx = useContext(ChatsContext);
     const chatsDetailsCtx = useContext(ChatsDetailsContext);
+    const draftsCtx = useContext(DraftsContext);
 
     useEffect(() => {
         (async () => {
@@ -177,6 +179,17 @@ export default function LoginScreen({ navigation }) {
         } else {
             setLoginErrorMessage('Server error.');
             return;
+        }
+        // SET CHAT DRAFTS CONTEXT DATA
+        try {
+            const drafts = await AsyncStorage.getItem('drafts');
+
+            if (drafts) {
+                console.log(JSON.parse(drafts));
+                draftsCtx.set(JSON.parse(drafts));
+            }
+        } catch (error) {
+            console.log(error);
         }
 
         authCtx.authenticate(userId, authToken);

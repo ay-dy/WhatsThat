@@ -17,8 +17,7 @@ export default function ChatNameInput({ defaultValue, onSave }) {
     function saveHandler() {
         let input = chatName;
 
-        input = input.trimStart();
-        input = input.trimEnd();
+        input = input.trim();
 
         setChatName(input);
         onSave(input);

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, Modal, StyleSheet, View, Text } from "react-native";
 import { getChatDetails, sendMessage, deleteMessage, updateMessage, getChats } from "../utils/api-service";
 import { ChatContext } from "../store/chat-context";
 import { ChatsDetailsContext } from "../store/chats-details-context";
@@ -12,6 +12,9 @@ import Colors from "../constants/colors";
 import Message from "../components/Message";
 import MessageInput from "../components/MessageInput";
 import ChatHeader from "../components/ChatHeader";
+import { useNavigation } from "@react-navigation/native";
+import { DraftsContext } from "../store/drafts-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ChatScreen() {
     const authCtx = useContext(AuthContext);
@@ -20,11 +23,12 @@ export default function ChatScreen() {
     const chatsCtx = useContext(ChatsContext);
     const chatsDetailsCtx = useContext(ChatsDetailsContext);
     const contactsCtx = useContext(ContactsContext);
+    const draftsCtx = useContext(DraftsContext);
 
     const [chat, setChat] = useState();
     const [isFetching, setIsFetching] = useState();
     const [inputMode, setInputMode] = useState('send');
-    const [messageToDraft, setMessageToDraft] = useState();
+    const [messageToDraft, setMessageToDraft] = useState('');
     const [messageToUpdate, setMessageToUpdate] = useState();
     const [messageToUpdateId, setMessageToUpdateId] = useState();
 
@@ -33,7 +37,9 @@ export default function ChatScreen() {
     useEffect(() => {
         let chat = chatCtx.chat;
         chat.members = prepareParticipants(chat.members);
+
         setChat(chat);
+
     }, [chatCtx.chat, chatsDetailsCtx.chatsDetails]);
 
     function getPreviousMessageData(currentMessage) {
@@ -65,16 +71,17 @@ export default function ChatScreen() {
             return (
                 <MessageInput
                     onUpdateMessage={updateMsg}
-                    onUpdateCancel={() => setInputMode('send')}
+                    onUpdatePreviewClose={() => setInputMode('send')}
                     messageToUpdate={messageToUpdate}
-                    onChangeText={setMessageToDraft}
+                    setMessageToDraft={setMessageToDraft}
                 />
             );
         } else {
             return (
                 <MessageInput
                     onSendMessage={sendMsg}
-                    onChangeText={setMessageToDraft}
+                    onUpdatePreviewClose={() => setInputMode('send')}
+                    setMessageToDraft={setMessageToDraft}
                 />
             );
         }
@@ -128,8 +135,7 @@ export default function ChatScreen() {
     }
 
     function prepareMessage(message) {
-        message = message.trimStart();
-        message = message.trimEnd();
+        message = message.trim();
         return message;
     }
 
@@ -163,16 +169,44 @@ export default function ChatScreen() {
         if (updateMessageResults.response.ok) {
             setMessageToUpdate('');
             setMessageToUpdateId('');
-            setInputMode('send');
             updateChat();
         }
+
         setInputMode('send');
+    }
+
+    // Remove the draft if it already exists and replace it with the updated version.
+    async function saveDraft() {
+        console.log(messageToDraft);
+        let drafts = draftsCtx.drafts.filter(draft => draft.chat_id !== chat.chat_id);
+
+        let draft = messageToDraft;
+        draft = draft.trim();
+
+        if (draft) {
+            let draftData = {
+                chat_id: chat.chat_id,
+                message: draft,
+                timestamp: Date.now(),
+                isMessageToUpdate: inputMode === 'update'
+            };
+
+            drafts = [...drafts, draftData];
+
+            try {
+                await AsyncStorage.setItem('drafts', JSON.stringify(drafts));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        draftsCtx.set(drafts);
     }
 
     function displayScreen() {
         return (
             <View style={styles.messagesContainer}>
-                <ChatHeader messageToDraft={messageToDraft} />
+                <ChatHeader onReturn={saveDraft} />
                 <FlatList
                     inverted
                     ref={ref => flatlistRef.current = ref}

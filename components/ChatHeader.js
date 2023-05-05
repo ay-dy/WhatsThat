@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native"
 import { ChatContext } from "../store/chat-context"
 import { useNavigation } from "@react-navigation/native";
@@ -6,24 +6,15 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "../constants/colors";
 
-
-export default function ChatHeader({ messageToDraft }) {
+export default function ChatHeader({ onReturn }) {
     const chatCtx = useContext(ChatContext);
     const navigation = useNavigation();
-
-    function saveDraft() {
-        if (messageToDraft) {
-            console.log('Message to be saved.');
-        } else {
-            console.log('Input box empty.');
-        }
-    }
 
     return (
         <View style={styles.mainContainer}>
             <TouchableOpacity
                 style={[styles.buttonContainer, { alignItems: 'flex-start' }]}
-                onPress={() => { navigation.navigate('Chats'); saveDraft(); }}
+                onPress={() => { navigation.navigate('Chats'); onReturn(); }}
             >
                 <Icon size={24} color={Colors['blue-lightest']} name='arrow-back-outline' />
             </TouchableOpacity>

@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../constants/colors";
 
-export default function ChatButton({ chatInfo }) {
+export default function ChatButton({ chatInfo, draftMessageInfo }) {
 
     const authCtx = useContext(AuthContext);
     const chatCtx = useContext(ChatContext);
@@ -60,19 +60,27 @@ export default function ChatButton({ chatInfo }) {
                 <View style={styles.chatInfo}>
                     <Text style={styles.chatName} numberOfLines={1}>{chatInfo.name}</Text>
                     <Text style={styles.chatLastMessage}>
+                        {/* IF DRAFT EXIST, SHOW THAT INSTEAD */}
                         {
-                            chatInfo.last_message.timestamp &&
-                            convertTimestamp(chatInfo.last_message.timestamp)
+                            draftMessageInfo ?
+                                convertTimestamp(draftMessageInfo.timestamp)
+                                : chatInfo.last_message ?
+                                    convertTimestamp(chatInfo.last_message.timestamp)
+                                    : null
+
                         }
                     </Text>
                 </View>
                 <View style={styles.chatInfo}>
                     <Text style={styles.chatLastMessage} numberOfLines={1}>
                         {
-                            chatInfo.last_message.message &&
-                            ((chatInfo.last_message.author.user_id === authCtx.id) ?
-                                'You: ' : chatInfo.last_message.author.first_name.concat(': '))
-                                .concat(chatInfo.last_message.message)
+                            draftMessageInfo ?
+                                'Draft: ' + draftMessageInfo.message
+                                : chatInfo.last_message.message ?
+                                    ((chatInfo.last_message.author.user_id === authCtx.id) ?
+                                        'You: ' : chatInfo.last_message.author.first_name.concat(': '))
+                                        .concat(chatInfo.last_message.message)
+                                    : null
                         }
                     </Text>
                 </View>

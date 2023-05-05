@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { createNewChat, getChats } from "../utils/api-service";
 import { AuthContext } from "../store/auth-context";
 import { ChatsContext } from "../store/chats-context";
@@ -12,25 +12,35 @@ import ChatNameInput from "../components/ChatNameInput";
 export default function NewChatScreen() {
     const authCtx = useContext(AuthContext);
     const chatsCtx = useContext(ChatsContext);
+
     const [isFetching, setIsFetching] = useState(false);
+    const [isChatNameEmpty, setIsChatNameEmpty] = useState(false);
 
     const navigation = useNavigation();
 
     async function newChat(chatName) {
-        setIsFetching(true);
+        chatName = chatName.trim();
 
-        const results = await createNewChat({ name: chatName }, authCtx.token);
+        if (chatName) {
+            setIsChatNameEmpty(false);
+            setIsFetching(true);
 
-        if (results.response.ok) {
-            const chats = await getChats(authCtx.token);
+            const results = await createNewChat({ name: chatName }, authCtx.token);
 
-            if (chats.response.ok) {
-                chatsCtx.set(chats.responseData);
+            if (results.response.ok) {
+                const chats = await getChats(authCtx.token);
+
+                if (chats.response.ok) {
+                    chatsCtx.set(chats.responseData);
+                }
             }
+
+            setIsFetching(false);
+            navigation.navigate('Chats');
+        } else {
+            setIsChatNameEmpty(true);
         }
 
-        setIsFetching(false);
-        navigation.navigate('Chats');
     }
 
     if (isFetching) {
@@ -41,6 +51,10 @@ export default function NewChatScreen() {
         return (
             <View style={styles.mainContainer}>
                 <ChatNameInput defaultValue={''} onSave={newChat} />
+                {isChatNameEmpty === true ?
+                    <Text style={styles.errorMessage}>Chat name cannot be blank</Text>
+                    : null
+                }
             </View>
         );
     }
@@ -54,4 +68,8 @@ const styles = StyleSheet.create({
         padding: 24,
         backgroundColor: Colors['blue-darker']
     },
+    errorMessage: {
+        fontSize: 14,
+        color: Colors['red-lighter']
+    }
 });
