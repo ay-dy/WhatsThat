@@ -24,6 +24,7 @@ export default function ChatScreen() {
     const [chat, setChat] = useState();
     const [isFetching, setIsFetching] = useState();
     const [inputMode, setInputMode] = useState('send');
+    const [messageToDraft, setMessageToDraft] = useState();
     const [messageToUpdate, setMessageToUpdate] = useState();
     const [messageToUpdateId, setMessageToUpdateId] = useState();
 
@@ -66,12 +67,14 @@ export default function ChatScreen() {
                     onUpdateMessage={updateMsg}
                     onUpdateCancel={() => setInputMode('send')}
                     messageToUpdate={messageToUpdate}
+                    onChangeText={setMessageToDraft}
                 />
             );
         } else {
             return (
                 <MessageInput
                     onSendMessage={sendMsg}
+                    onChangeText={setMessageToDraft}
                 />
             );
         }
@@ -124,7 +127,14 @@ export default function ChatScreen() {
         setIsFetching(false);
     }
 
+    function prepareMessage(message) {
+        message = message.trimStart();
+        message = message.trimEnd();
+        return message;
+    }
+
     async function sendMsg(message) {
+        message = prepareMessage(message);
         const sendMessageResults = await sendMessage(chat.chat_id, authCtx.token, { message: message });
 
         if (sendMessageResults.response.ok) {
@@ -141,6 +151,8 @@ export default function ChatScreen() {
     }
 
     async function updateMsg(message) {
+        message = prepareMessage(message);
+
         const updateMessageResults = await updateMessage(
             chat.chat_id,
             messageToUpdateId,
@@ -160,7 +172,7 @@ export default function ChatScreen() {
     function displayScreen() {
         return (
             <View style={styles.messagesContainer}>
-                <ChatHeader />
+                <ChatHeader messageToDraft={messageToDraft} />
                 <FlatList
                     inverted
                     ref={ref => flatlistRef.current = ref}

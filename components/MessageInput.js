@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Image } from "react-nati
 import Colors from "../constants/colors";
 import MessageEditPreview from "./MessageEditPreview";
 
-export default function MessageInput({ onSendMessage, onUpdateMessage, messageToUpdate, onUpdateCancel }) {
+export default function MessageInput({ onSendMessage, onUpdateMessage, messageToUpdate, onUpdateCancel, onChangeText }) {
     const [input, setInput] = useState('')
     const [inputHeight, setInputHeight] = useState(21);
 
@@ -55,6 +55,8 @@ export default function MessageInput({ onSendMessage, onUpdateMessage, messageTo
                         placeholderTextColor={Colors['grey']}
                         onChangeText={(input) => {
                             setInput(input);
+                            // Update message draft state in ChatScreen.
+                            onChangeText(input);
                         }}
                         onContentSizeChange={(event) => {
                             heightHandler(event.nativeEvent.contentSize.height);

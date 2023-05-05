@@ -30,18 +30,21 @@ export default function ChatSettingsScreen() {
     }, [chatCtx.chat])
 
     async function updateName(chatName) {
-        setIsFetching(true);
-        const results = await updateChatName(chat.chat_id, { name: chatName }, authCtx.token);
+        if (chatName != chatCtx.chat.name) {
+            setIsFetching(true);
 
-        if (results.response.ok) {
-            chat.name = chatName;
+            const results = await updateChatName(chat.chat_id, { name: chatName }, authCtx.token);
 
-            const results = await getChats(authCtx.token);
             if (results.response.ok) {
-                chatsCtx.set(results.responseData);
+                chat.name = chatName;
+
+                const results = await getChats(authCtx.token);
+                if (results.response.ok) {
+                    chatsCtx.set(results.responseData);
+                }
             }
+            setIsFetching(false);
         }
-        setIsFetching(false);
     }
 
     async function updateChat() {

@@ -8,8 +8,20 @@ export default function ChatNameInput({ defaultValue, onSave }) {
     const [isSaveButtonVisible, setIsSaveButtonVisible] = useState()
 
     function inputHandler(input) {
-        setChatName(input.replace('\n', ''));
+        input = input.replace('\n', '');
+        setChatName(input);
         setIsSaveButtonVisible(input != defaultValue);
+    }
+
+    // If chat name without spaces at the beginning and end of the string is the same, don't save it.
+    function saveHandler() {
+        let input = chatName;
+
+        input = input.trimStart();
+        input = input.trimEnd();
+
+        setChatName(input);
+        onSave(input);
     }
 
     function heightHandler(height) {
@@ -38,7 +50,7 @@ export default function ChatNameInput({ defaultValue, onSave }) {
             {isSaveButtonVisible &&
                 <TouchableOpacity
                     style={styles.saveButton}
-                    onPress={() => { onSave(chatName); setIsSaveButtonVisible(false); }}
+                    onPress={() => { saveHandler(); setIsSaveButtonVisible(false); }}
                 >
                     <Text style={styles.saveButtonText}>Save</Text>
                 </TouchableOpacity>
