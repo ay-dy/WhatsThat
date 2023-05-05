@@ -5,7 +5,6 @@ import { ChatContext } from "../store/chat-context";
 import { ChatsDetailsContext } from "../store/chats-details-context";
 import { useNavigation } from "@react-navigation/native";
 
-import ChatSettingsButton from "./ChatSettingsButton";
 import Colors from "../constants/colors";
 
 export default function ChatButton({ chatInfo }) {
@@ -51,7 +50,7 @@ export default function ChatButton({ chatInfo }) {
             style={styles.mainContainer}
             onPress={() => {
                 chatCtx.set(findChatDetails());
-                navigation.navigate('Chat', { settingsBtn: <ChatSettingsButton /> });
+                navigation.navigate('Chat');
             }}
         >
             <View style={styles.chatIcon}>

@@ -55,7 +55,7 @@ export default function SearchBar({ onSearch, returnToScreen }) {
 const styles = StyleSheet.create({
     mainContainer: {
         width: '100%',
-        paddingVertical: 24,
+        height: 64,
         paddingHorizontal: 16,
         flexDirection: 'row',
         alignItems: 'center',

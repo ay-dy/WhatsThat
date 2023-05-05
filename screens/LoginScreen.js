@@ -100,11 +100,13 @@ export default function LoginScreen({ navigation }) {
             if (getChatDetailsResults.response.ok) {
                 let data = getChatDetailsResults.responseData;
                 data.chat_id = chat.chat_id;
+                console.log(data);
                 return data;
             } else {
                 return [];
             }
         }));
+        console.log(allChats);
 
         return allChats;
     }

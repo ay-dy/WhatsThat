@@ -11,6 +11,7 @@ import { ChatsContext } from "../store/chats-context";
 import Colors from "../constants/colors";
 import Message from "../components/Message";
 import MessageInput from "../components/MessageInput";
+import ChatHeader from "../components/ChatHeader";
 
 export default function ChatScreen() {
     const authCtx = useContext(AuthContext);
@@ -159,6 +160,7 @@ export default function ChatScreen() {
     function displayScreen() {
         return (
             <View style={styles.messagesContainer}>
+                <ChatHeader />
                 <FlatList
                     inverted
                     ref={ref => flatlistRef.current = ref}

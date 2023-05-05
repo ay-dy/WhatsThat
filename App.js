@@ -96,11 +96,7 @@ function WrappedAuthStack() {
         <Stack.Screen name='Settings' component={SettingsScreen} />
         <Stack.Screen name='Blocked' component={BlockedContactsScreen} />
         <Stack.Screen name='Contact' component={ContactScreen} />
-        <Stack.Screen
-          name='Chat'
-          options={({ route }) => ({ title: chatCtx.chat.name, headerRight: () => route.params.settingsBtn })}
-          component={ChatScreen}
-        />
+        <Stack.Screen name='Chat' options={{ headerShown: false }} component={ChatScreen} />
         <Stack.Screen name='Add' options={{ headerShown: false }} component={AddContactScreen} />
         <Stack.Screen name='ChatSettings' options={{ title: 'Settings' }} component={ChatSettingsScreen} />
         <Stack.Screen name='AddParticipants' options={{ headerShown: false }} component={AddParticipantsScreen} />
