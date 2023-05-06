@@ -45,7 +45,6 @@ export default function OptionsMenu() {
 
         if (logoutResults.response.ok) {
             await AsyncStorage.clear();
-            console.log(await AsyncStorage.getAllKeys());
             authCtx.logout();
             blockedContactsCtx.clear();
             chatCtx.clear();
