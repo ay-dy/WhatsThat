@@ -6,11 +6,11 @@ https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_gu
 https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide/JavaScript
 
 ## Running the app
-1. Clone the repository into a directory on your local machine. If you have Git installed on your machine then you can run "git clone https://github.com/ay-dy/whatsthat" in your terminal (it's a private repository, so you must be a collaborator to obtain access to it).
+1. Clone the repository into a directory on your local machine. If you have Git installed on your machine then you can run "git clone https://github.com/ay-dy/whatsthat" in your terminal.
 
 2. In the terminal, navigate to the directory where you have cloned the repository and run `npm install` to install the dependencies.
 
-3. Run the server with `npm run dev`
+3. Run the server with `npm run dev`.
 
 4. Run the app with `npm start` followed by `w` to open it on web.
 
