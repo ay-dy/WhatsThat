@@ -43,7 +43,7 @@ export default function ChatScreen() {
     // If a draft exists, determine if it's a draft to update or a draft to send
     // and set states accordingly.
     useEffect(() => {
-        let draft = draftsCtx.drafts.find(draft => draft.chat_id === chatCtx.chat.chat_id);
+        let draft = draftsCtx.drafts ? draftsCtx.drafts.find(draft => draft.chat_id === chatCtx.chat.chat_id) : null;
 
         setInputMode(draft ? (draft.isMessageToUpdate ? 'update' : 'send') : 'send');
         setMessageToUpdateId(draft ? (draft.messageToUpdateId ? draft.messageToUpdateId : null) : null);
@@ -183,7 +183,7 @@ export default function ChatScreen() {
     }
 
     async function saveDraft() {
-        let drafts = draftsCtx.drafts.filter(draft => draft.chat_id !== chat.chat_id);
+        let drafts = draftsCtx.drafts ? draftsCtx.drafts.filter(draft => draft.chat_id !== chat.chat_id) : [];
 
         let draft = messageToDraft;
         draft = draft.trim();

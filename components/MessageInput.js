@@ -33,7 +33,7 @@ export default function MessageInput({
     }
 
     function findDraft() {
-        return draftsCtx.drafts.find(draft => draft.chat_id === chatCtx.chat.chat_id);
+        return draftsCtx.drafts ? draftsCtx.drafts.find(draft => draft.chat_id === chatCtx.chat.chat_id) : null;
     }
 
     function getMessageDraft() {
