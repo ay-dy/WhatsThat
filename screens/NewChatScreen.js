@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { createNewChat, getChats } from "../utils/api-service";
+import { createNewChat, getChatDetails, getChats } from "../utils/api-service";
 import { AuthContext } from "../store/auth-context";
 import { ChatsContext } from "../store/chats-context";
+import { ChatsDetailsContext } from "../store/chats-details-context";
 import { useNavigation } from "@react-navigation/native";
 
 import SpinnerOverlay from "../components/SpinnerOverlay";
@@ -12,6 +13,7 @@ import ChatNameInput from "../components/ChatNameInput";
 export default function NewChatScreen() {
     const authCtx = useContext(AuthContext);
     const chatsCtx = useContext(ChatsContext);
+    const chatsDetailsCtx = useContext(ChatsDetailsContext);
 
     const [isFetching, setIsFetching] = useState(false);
     const [isChatNameEmpty, setIsChatNameEmpty] = useState(false);
@@ -25,13 +27,22 @@ export default function NewChatScreen() {
             setIsChatNameEmpty(false);
             setIsFetching(true);
 
-            const results = await createNewChat({ name: chatName }, authCtx.token);
+            const newChatResults = await createNewChat({ name: chatName }, authCtx.token);
 
-            if (results.response.ok) {
-                const chats = await getChats(authCtx.token);
+            if (newChatResults.response.ok) {
+                const chatsResults = await getChats(authCtx.token);
+                const chats = chatsResults.responseData
 
-                if (chats.response.ok) {
-                    chatsCtx.set(chats.responseData);
+                if (chatsResults.response.ok) {
+                    chatsCtx.set(chats);
+                    const chatId = chats.slice(-1).pop().chat_id;
+                    const chatDetailsResults = await getChatDetails(chatId, authCtx.token);
+
+                    if (chatDetailsResults.response.ok) {
+                        const chatDetails = chatDetailsResults.responseData;
+                        chatDetails.chat_id = chatId;
+                        chatsDetailsCtx.set([...chatsDetailsCtx.chatsDetails, chatDetails]);
+                    }
                 }
             }
 
