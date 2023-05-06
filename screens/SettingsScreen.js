@@ -81,7 +81,7 @@ export default function SettingsScreen() {
     }
 
     const openCamera = async () => {
-        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
         if (!permissionResult.granted) {
             return;
