@@ -2,6 +2,7 @@
 This is the WhatsThat? app code for the 22/33 Mobile Applications Development Assignment (6G6Z1104). I have used the MDN Web Docs general, as well as JS-specific, code styling guidelines.
 
 https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide
+
 https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide/JavaScript
 
 ## Running the app
