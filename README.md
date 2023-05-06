@@ -18,7 +18,7 @@ https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_gu
 Refer to the screencast to grasp how each part of the app works and how it refers to the 23 API endpoints.
 I have used some third-party components throughout the app to improve its esthetics and save some time, but not to the point where it would be classed as a cop-out from putting in actual hard work.
 
-### Spinner overlay:
+### Spinner overlay
 - source: https://github.com/ladjs/react-native-loading-spinner-overlay
 
 - I used this component in places where an API call was required. It covers the entire screen with a loading animation to prevent the user from making more calls before the previous ones were finished executing. I chose it because it looks better than displaying a simple Text component with a static "Loading..." text.
