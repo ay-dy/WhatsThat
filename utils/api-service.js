@@ -22,7 +22,7 @@ function setProps(method, headers, body) {
         }
     }
 
-    props.signal = requestTimeout(3000).signal
+    props.signal = requestTimeout(5000).signal
 
     return props
 }
@@ -149,7 +149,6 @@ export async function getUserProfilePhoto(userId, authToken) {
             },
             body: null
         });
-        // Create a usable image uri
         let rawdata = await response.blob()
         responseData = URL.createObjectURL(rawdata);
     } catch (error) {
@@ -327,11 +326,6 @@ export async function getChats(authToken) {
         });
         responseData = await response.json();
     } catch (error) {
-        // if (error.name === 'AbortError') {
-        //     console.error('GET chats request was cancelled.');
-        // } else {
-        //     throw error;
-        // }
         console.log(error);
     } finally {
         return ({ response: response, responseData: responseData });
