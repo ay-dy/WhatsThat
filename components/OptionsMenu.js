@@ -14,6 +14,7 @@ import { Menu, MenuItem } from "react-native-material-menu";
 
 import Colors from "../constants/colors";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DraftsContext } from "../store/drafts-context";
 
 export default function OptionsMenu() {
     const [visible, setVisible] = useState(false);
@@ -26,6 +27,7 @@ export default function OptionsMenu() {
     const contactCtx = useContext(ContactContext);
     const contactsCtx = useContext(ContactsContext);
     const userCtx = useContext(SettingsContext);
+    const draftsCtx = useContext(DraftsContext);
 
     const navigation = useNavigation();
 
@@ -42,8 +44,9 @@ export default function OptionsMenu() {
         const logoutResults = await logout(authCtx.token);
 
         if (logoutResults.response.ok) {
-            authCtx.logout();
             await AsyncStorage.clear();
+            console.log(await AsyncStorage.getAllKeys());
+            authCtx.logout();
             blockedContactsCtx.clear();
             chatCtx.clear();
             chatsCtx.clear();
@@ -51,6 +54,7 @@ export default function OptionsMenu() {
             contactCtx.clear();
             contactsCtx.clear();
             userCtx.clear();
+            draftsCtx.clear();
         } else {
             console.log('Logout failed.');
         }
