@@ -132,11 +132,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '35%',
         alignItems: 'flex-end',
-        justifyContent: 'space-between'
+        justifyContent: 'flex-end'
     },
     icon: {
         width: 20,
-        height: 20
+        height: 20,
+        marginLeft: 32
     },
     menuContainer: {
         width: '50%',
