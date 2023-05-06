@@ -10,7 +10,7 @@ export default function ChatNameInput({ defaultValue, onSave }) {
     function inputHandler(input) {
         input = input.replace('\n', '');
         setChatName(input);
-        setIsSaveButtonVisible(input != defaultValue);
+        setIsSaveButtonVisible(input != defaultValue && input != '');
     }
 
     function saveHandler() {
