@@ -106,7 +106,6 @@ export default function AddParticipantsScreen() {
 
     function renderSelectedContact(contact) {
         contact = contact.item;
-        console.log(contact);
         return (
             <TouchableOpacity
                 onPress={() => setSelectedResults(selectedResults.filter(result => result.user_id != contact.user_id))}
