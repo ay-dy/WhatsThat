@@ -12,6 +12,7 @@ import SettingsDetail from "../components/SettingsDetail";
 import validator from "validator";
 import * as ImagePicker from 'expo-image-picker';
 import ErrorMessage from "../components/ErrorMessage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SettingsScreen() {
     const userCtx = useContext(SettingsContext);
@@ -44,6 +45,7 @@ export default function SettingsScreen() {
             const uploadUserProfilePhotoResults = await uploadUserProfilePhoto(authCtx.id, authCtx.token, profilePhoto);
 
             if (uploadUserProfilePhotoResults.response.ok) {
+                await AsyncStorage.setItem('password', userInfo.password);
                 userCtx.set(profilePhoto, userInfo);
             } else {
                 console.log(uploadUserProfilePhotoResults.responseData);
