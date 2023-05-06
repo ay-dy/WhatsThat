@@ -47,6 +47,8 @@ export default function AddParticipantsScreen() {
 
             if (addChatParticipantResults.response.ok) {
                 console.log('Participant added');
+            } else {
+                console.log('Failed to add participant.');
             }
         }));
         await updateChat();
@@ -71,7 +73,6 @@ export default function AddParticipantsScreen() {
 
     function renderContact(contact) {
         contact = contact.item;
-        console.log(contact);
 
         const selected = selectedResults && selectedResults.includes(contact);
         const alreadyInChat = participants.find(participant => participant.user_id === contact.user_id);
