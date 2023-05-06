@@ -137,6 +137,7 @@ export default function ChatSettingsScreen() {
                     anchor=
                     {
                         <FlatList
+                            inverted
                             data={chat && chat.members}
                             keyExtractor={participant => participant.user_id}
                             renderItem={renderParticipant}
