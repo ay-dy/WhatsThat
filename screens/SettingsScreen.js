@@ -11,6 +11,7 @@ import Colors from "../constants/colors";
 import SettingsDetail from "../components/SettingsDetail";
 import validator from "validator";
 import * as ImagePicker from 'expo-image-picker';
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function SettingsScreen() {
     const userCtx = useContext(SettingsContext);
@@ -21,6 +22,7 @@ export default function SettingsScreen() {
     const [isMenuvisible, setIsMenuvisible] = useState(false);
     const [isSaveButtonVisible, setIsSaveButtonVisible] = useState(false);
     const [profilePhoto, setProfilePhoto] = useState(userCtx.profile_photo);
+    const [uploadedPhotoSize, setUploadedPhotoSize] = useState();
     const [userInfo, setUserInfo] = useState(userCtx.info);
     const [isFetching, setIsFetching] = useState(false);
 
@@ -62,13 +64,17 @@ export default function SettingsScreen() {
         const result = await ImagePicker.launchImageLibraryAsync();
 
         if (!result.canceled) {
-            /* 
-            The result returns an array of assets, but only one asset is allowed so this
-            will always work
-            */
             let uri = result.assets[0].uri;
-            setProfilePhoto(uri);
-            setIsSaveButtonVisible(true);
+
+            let res = await fetch(uri);
+            let photoBlob = await res.blob();
+            let sizeInKb = Math.floor(photoBlob.size / 1000);
+            setUploadedPhotoSize(sizeInKb);
+
+            if (sizeInKb <= 250) {
+                setProfilePhoto(uri);
+                setIsSaveButtonVisible(true);
+            }
         }
     }
 
@@ -82,13 +88,17 @@ export default function SettingsScreen() {
         const result = await ImagePicker.launchCameraAsync();
 
         if (!result.canceled) {
-            /* 
-            The result returns an array of assets, but only one asset is allowed so this
-            will always work
-            */
             let uri = result.assets[0].uri;
-            setProfilePhoto(uri);
-            setIsSaveButtonVisible(true);
+
+            let res = await fetch(uri);
+            let photoBlob = await res.blob();
+            let sizeInKb = Math.floor(photoBlob.size / 1000);
+            setUploadedPhotoSize(sizeInKb);
+
+            if (sizeInKb <= 250) {
+                setProfilePhoto(uri);
+                setIsSaveButtonVisible(true);
+            }
         }
     }
 
@@ -130,8 +140,6 @@ export default function SettingsScreen() {
                                 onPress={() => {
                                     hideMenu();
                                     openCamera();
-                                    //navigation.navigate('Camera');
-                                    //Hello
                                 }}
                                 style={styles.menuItemContainer}
                                 textStyle={styles.menuItemText}
@@ -141,7 +149,6 @@ export default function SettingsScreen() {
                             <MenuItem
                                 onPress={() => {
                                     hideMenu();
-                                    // GALLERY HANDLER FUNCTION
                                     showImagePicker();
                                 }}
                                 style={styles.menuItemContainer}
@@ -152,6 +159,15 @@ export default function SettingsScreen() {
                         </Menu>
                     </View>
                 </View>
+                {uploadedPhotoSize > 250 ?
+                    <View style={styles.errorMessageContainer}>
+                        <ErrorMessage>
+                            File size is too large. The maximum size allowed is 250KB.
+                        </ErrorMessage>
+                    </View>
+                    : null
+                }
+
                 <SettingsDetail
                     iconFileName={'user_grey.png'}
                     label={'First Name'}
@@ -292,5 +308,13 @@ const styles = StyleSheet.create({
     menuItemText: {
         fontSize: 16,
         color: Colors['ice']
-    }
+    },
+    errorMessageContainer: {
+        width: '100%',
+        height: 64,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        paddingHorizontal: 24,
+        marginBottom: 16
+    },
 })
