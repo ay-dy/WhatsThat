@@ -185,7 +185,7 @@ export default function ChatScreen() {
     async function saveDraft() {
         let drafts = draftsCtx.drafts ? draftsCtx.drafts.filter(draft => draft.chat_id !== chat.chat_id) : [];
 
-        let draft = messageToDraft;
+        let draft = messageToDraft ? messageToDraft : '';
         draft = draft.trim();
 
         if (draft) {
