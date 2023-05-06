@@ -22,7 +22,7 @@ function setProps(method, headers, body) {
         }
     }
 
-    props.signal = requestTimeout(5000).signal
+    props.signal = requestTimeout(6000).signal
 
     return props
 }
