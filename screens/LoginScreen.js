@@ -131,10 +131,8 @@ export default function LoginScreen({ navigation }) {
 
         if (getUserInfoResults.response.ok) {
             const userInfo = getUserInfoResults.responseData;
-
             delete userInfo.user_id;
-
-            userInfo.password = credentials.password;
+            userInfo.password = await AsyncStorage.getItem('password');
 
             settingsCtx.set(userProfilePhotoUri, userInfo);
         } else {
@@ -180,12 +178,11 @@ export default function LoginScreen({ navigation }) {
             setLoginErrorMessage('Server error.');
             return;
         }
-        // SET CHAT DRAFTS CONTEXT DATA
+
         try {
             const drafts = await AsyncStorage.getItem('drafts');
 
             if (drafts) {
-                console.log(JSON.parse(drafts));
                 draftsCtx.set(JSON.parse(drafts));
             }
         } catch (error) {
@@ -213,6 +210,7 @@ export default function LoginScreen({ navigation }) {
                     const userId = loginResults.responseData.id;
                     const authToken = loginResults.responseData.token;
 
+                    await AsyncStorage.setItem('password', credentials.password);
                     await populateContexts(userId, authToken);
 
                     if (loginErrorMessage === '') {
