@@ -26,7 +26,7 @@ export default function ChatScreen() {
 
     const [chat, setChat] = useState();
     const [isFetching, setIsFetching] = useState();
-    const [inputMode, setInputMode] = useState('send');
+    const [inputMode, setInputMode] = useState();
     const [messageToDraft, setMessageToDraft] = useState('');
     const [messageToUpdate, setMessageToUpdate] = useState();
     const [messageToUpdateId, setMessageToUpdateId] = useState();
@@ -39,6 +39,15 @@ export default function ChatScreen() {
 
         setChat(chat);
     }, [chatCtx.chat, chatsDetailsCtx.chatsDetails]);
+
+    // If a draft exists, determine if it's a draft to update or a draft to send
+    // and set states accordingly.
+    useEffect(() => {
+        let draft = draftsCtx.drafts.find(draft => draft.chat_id === chatCtx.chat.chat_id);
+
+        setInputMode(draft ? (draft.isMessageToUpdate ? 'update' : 'send') : 'send');
+        setMessageToUpdateId(draft ? (draft.messageToUpdateId ? draft.messageToUpdateId : null) : null);
+    }, []);
 
     function getPreviousMessageData(currentMessage) {
         const messages = chat.messages;
@@ -184,7 +193,8 @@ export default function ChatScreen() {
                 chat_id: chat.chat_id,
                 message: draft,
                 timestamp: Date.now(),
-                isMessageToUpdate: inputMode === 'update'
+                isMessageToUpdate: inputMode === 'update',
+                messageToUpdateId: inputMode === 'update' ? messageToUpdateId : null
             };
 
             drafts = [...drafts, draftData];
