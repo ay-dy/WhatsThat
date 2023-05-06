@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         padding: 12,
         fontSize: 16,
-        //outlineColor: Colors['green'],
         outlineStyle: 'none'
     },
     textFocus: {

@@ -1,4 +1,5 @@
 import { View, Image, StyleSheet } from "react-native";
+
 import Colors from "../constants/colors";
 import Button from "./Button";
 

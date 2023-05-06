@@ -38,7 +38,6 @@ export default function ChatScreen() {
         chat.members = prepareParticipants(chat.members);
 
         setChat(chat);
-
     }, [chatCtx.chat, chatsDetailsCtx.chatsDetails]);
 
     function getPreviousMessageData(currentMessage) {
@@ -174,9 +173,7 @@ export default function ChatScreen() {
         setInputMode('send');
     }
 
-    // Remove the draft if it already exists and replace it with the updated version.
     async function saveDraft() {
-        console.log(messageToDraft);
         let drafts = draftsCtx.drafts.filter(draft => draft.chat_id !== chat.chat_id);
 
         let draft = messageToDraft;

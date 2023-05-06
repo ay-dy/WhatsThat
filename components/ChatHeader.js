@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     },
     title: {
         width: '70%',
-        // textAlign: 'center',
         fontSize: 18,
         fontWeight: "500",
         color: Colors['blue-lightest']

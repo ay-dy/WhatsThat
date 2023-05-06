@@ -31,7 +31,6 @@ export default function AddParticipantsScreen() {
     function searchHandler(query) {
         query = query.toLowerCase();
 
-        // Store an array of contacts, whose data inclues the query as a substring.
         const results = contactsCtx.contacts.filter(contact => {
             let data = contact.first_name + contact.last_name + contact.email;
             data = data.toLowerCase();
@@ -75,12 +74,7 @@ export default function AddParticipantsScreen() {
         console.log(contact);
 
         const selected = selectedResults && selectedResults.includes(contact);
-        // .includes() wouldn't work on the participants array for some reason.
         const alreadyInChat = participants.find(participant => participant.user_id === contact.user_id);
-
-        console.log(participants);
-
-        console.log(alreadyInChat);
 
         function toggleSelected() {
             if (selected) {

@@ -60,7 +60,6 @@ export default function ChatButton({ chatInfo, draftMessageInfo }) {
                 <View style={styles.chatInfo}>
                     <Text style={styles.chatName} numberOfLines={1}>{chatInfo.name}</Text>
                     <Text style={styles.chatLastMessage}>
-                        {/* IF DRAFT EXIST, SHOW THAT INSTEAD */}
                         {
                             draftMessageInfo ?
                                 convertTimestamp(draftMessageInfo.timestamp)

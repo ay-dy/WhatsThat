@@ -13,10 +13,8 @@ export default function ChatNameInput({ defaultValue, onSave }) {
         setIsSaveButtonVisible(input != defaultValue);
     }
 
-    // If chat name without spaces at the beginning and end of the string is the same, don't save it.
     function saveHandler() {
         let input = chatName;
-
         input = input.trim();
 
         setChatName(input);
