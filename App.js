@@ -81,8 +81,6 @@ function AuthStack() {
 }
 
 function WrappedAuthStack() {
-  const chatCtx = useContext(ChatContext);
-
   return (
     <ContactContextProvider>
       <Stack.Navigator
@@ -99,7 +97,7 @@ function WrappedAuthStack() {
         <Stack.Screen name='Contact' component={ContactScreen} />
         <Stack.Screen name='Chat' options={{ headerShown: false }} component={ChatScreen} />
         <Stack.Screen name='Add' options={{ headerShown: false }} component={AddContactScreen} />
-        <Stack.Screen name='ChatSettings' options={{ title: 'Settings' }} component={ChatSettingsScreen} />
+        <Stack.Screen name='ChatSettings' options={{ title: 'Chat Settings' }} component={ChatSettingsScreen} />
         <Stack.Screen name='AddParticipants' options={{ headerShown: false }} component={AddParticipantsScreen} />
         <Stack.Screen name='NewConversation' options={{ title: 'New Conversation' }} component={NewChatScreen} />
       </Stack.Navigator>
