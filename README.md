@@ -19,11 +19,11 @@ Refer to the screencast to grasp how each part of the app works and how it refer
 I have used some third-party components throughout the app to improve its esthetics and save some time, but not to the point where it would be classed as a cop-out from putting in actual hard work.
 
 Spinner overlay: 
-    - source: https://github.com/ladjs/react-native-loading-spinner-overlay
+- source: https://github.com/ladjs/react-native-loading-spinner-overlay
 
-    - I used this component in places where an API call was required. It covers the entire screen with a loading animation to prevent the user from making more calls before the previous ones were finished executing. I chose it because it looks better than displaying a simple Text component with a static "Loading..." text.
+- I used this component in places where an API call was required. It covers the entire screen with a loading animation to prevent the user from making more calls before the previous ones were finished executing. I chose it because it looks better than displaying a simple Text component with a static "Loading..." text.
 
 Material menu:
-    - source: https://github.com/mxck/react-native-material-menu
+- source: https://github.com/mxck/react-native-material-menu
 
-    - I used this component in 3 places. The main screen to either navigate to the user settings screen or to log out, the chat settings screen button to remove a user from the chat, and chat screen to edit or delete a message. I chose it because it's the closest I can get to mimick WhatsApp's functionality in those places.
+- I used this component in 3 places. The main screen to either navigate to the user settings screen or to log out, the chat settings screen button to remove a user from the chat, and chat screen to edit or delete a message. I chose it because it's the closest I can get to mimick WhatsApp's functionality in those places.
