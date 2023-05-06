@@ -63,12 +63,6 @@ export default function OptionsMenu() {
                 <Text style={styles.titleText}>WhatsThat</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity>
-                    <Image
-                        style={styles.icon}
-                        source={require('../assets/images/search_blue.png')}
-                    />
-                </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Add')}
                 >
