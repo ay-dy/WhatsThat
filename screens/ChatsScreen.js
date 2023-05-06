@@ -25,7 +25,6 @@ export default function ChatsScreen() {
 
     function findDraft(chatId) {
         let draft = drafts.find(draft => draft.chat_id === chatId);
-        console.log(draft);
         return draft;
     }
 
