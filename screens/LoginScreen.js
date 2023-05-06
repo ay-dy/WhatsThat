@@ -7,6 +7,7 @@ import { ContactsContext } from '../store/contacts-context';
 import { BlockedContactsContext } from '../store/blocked-contacts-context';
 import { ChatsContext } from '../store/chats-context';
 import { ChatsDetailsContext } from '../store/chats-details-context';
+import { DraftsContext } from '../store/drafts-context';
 
 import Form from '../components/Form';
 import DataField from '../components/DataField';
@@ -15,7 +16,6 @@ import ErrorMessage from '../components/ErrorMessage';
 import SpinnerOverlay from '../components/SpinnerOverlay';
 import validator from 'validator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DraftsContext } from '../store/drafts-context';
 
 export default function LoginScreen({ navigation }) {
     const [credentials, setCredentials] = useState({

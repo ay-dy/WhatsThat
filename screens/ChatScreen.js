@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { FlatList, Modal, StyleSheet, View, Text } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { getChatDetails, sendMessage, deleteMessage, updateMessage, getChats } from "../utils/api-service";
 import { ChatContext } from "../store/chat-context";
 import { ChatsDetailsContext } from "../store/chats-details-context";
@@ -7,13 +7,12 @@ import { AuthContext } from "../store/auth-context";
 import { ContactsContext } from "../store/contacts-context";
 import { SettingsContext } from "../store/settings-context";
 import { ChatsContext } from "../store/chats-context";
+import { DraftsContext } from "../store/drafts-context";
 
 import Colors from "../constants/colors";
 import Message from "../components/Message";
 import MessageInput from "../components/MessageInput";
 import ChatHeader from "../components/ChatHeader";
-import { useNavigation } from "@react-navigation/native";
-import { DraftsContext } from "../store/drafts-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ChatScreen() {

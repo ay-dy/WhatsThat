@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { View, TextInput, StyleSheet, TouchableOpacity, Image } from "react-native";
-import Colors from "../constants/colors";
-import MessageEditPreview from "./MessageEditPreview";
 import { DraftsContext } from "../store/drafts-context";
 import { ChatContext } from "../store/chat-context";
+
+import Colors from "../constants/colors";
+import MessageEditPreview from "./MessageEditPreview";
 
 export default function MessageInput({
     onSendMessage,
