@@ -35,7 +35,7 @@ export default function ContactScreen() {
         const deleteContactResults = await deleteContact(contact.user_id, authCtx.token);
 
         resultsHandler(deleteContactResults);
-        console.log('Contact deleted');
+        console.log('Contact deleted.');
 
         setIsFetching(false);
     }
@@ -47,7 +47,7 @@ export default function ContactScreen() {
 
         resultsHandler(blockContactResults);
         blockedContactsCtx.blockedContacts.push(contact);
-        console.log('Contact blocked');
+        console.log('Contact blocked.');
 
         setIsFetching(false);
     }

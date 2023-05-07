@@ -34,9 +34,11 @@ export default function BlockedContactsScreen() {
         if (unblockContactResults.response.ok) {
             blockedContacts.splice(indexOf(findBlockedContact(blockedContact.user_id)), 1);
             blockedContactsCtx.set(blockedContacts);
+
             contactsCtx.contacts.unshift(blockedContact);
+            console.log('Contact unblocked.');
         } else {
-            console.log('Failed to unblock contact.')
+            console.log('Failed to unblock contact.');
         }
 
         setIsFetching(false);

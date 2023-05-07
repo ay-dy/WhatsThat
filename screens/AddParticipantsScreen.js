@@ -42,17 +42,21 @@ export default function AddParticipantsScreen() {
 
     async function addParticipants() {
         setIsFetching(true);
+
         await Promise.all(selectedResults.map(async result => {
             const addChatParticipantResults = await addChatParticipant(chatCtx.chat.chat_id, result.user_id, authCtx.token);
 
             if (addChatParticipantResults.response.ok) {
-                console.log('Participant added');
+                console.log('Participant added.');
             } else {
                 console.log('Failed to add participant.');
             }
         }));
+
         await updateChat();
+
         setIsFetching(false);
+
         navigation.navigate('ChatSettings');
     }
 

@@ -31,9 +31,9 @@ export default function FoundContact({ foundContactInfo }) {
 
             contactsCtx.contacts.unshift(foundContactInfo);
 
-            console.log('Contact added successfully');
+            console.log('Contact added.');
         } else {
-            console.log('Server error');
+            console.log('Server error.');
         }
 
         setIsFetching(false)
