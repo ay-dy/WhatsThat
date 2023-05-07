@@ -58,7 +58,6 @@ export default function AddContactScreen() {
             }));
 
             setFoundUsers(users);
-            console.log(query, users);
         } else {
             console.log('Server error');
         }

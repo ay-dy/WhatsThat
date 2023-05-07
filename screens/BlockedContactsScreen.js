@@ -29,8 +29,6 @@ export default function BlockedContactsScreen() {
     async function unblockHandler(blockedContact) {
         setIsFetching(true);
 
-        console.log('Unblock button clicked');
-
         const unblockContactResults = await unblockContact(blockedContact.user_id, authCtx.token);
 
         if (unblockContactResults.response.ok) {
