@@ -67,7 +67,7 @@ export default function SignUpScreen({ navigation }) {
     }
 
     async function signUpHandler() {
-        if (allValid) {
+        if (allValid()) {
             setIsFetching(true);
             const addUserResults = await addUser(credentials);
 
@@ -83,7 +83,7 @@ export default function SignUpScreen({ navigation }) {
             }
             setIsFetching(false);
         } else {
-            setSignUpErrorMessage('Server error.');
+            setSignUpErrorMessage("One or more fields doesn't match the criteria.");
         }
     }
 
