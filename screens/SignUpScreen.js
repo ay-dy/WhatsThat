@@ -38,6 +38,7 @@ export default function SignUpScreen({ navigation }) {
     }
 
     function emailHandler(emailInput) {
+        emailInput = emailInput.toLowerCase();
         setCredentials({ ...credentials, email: emailInput });
         setCredentialsValid({ ...credentialsValid, email: !validator.isEmpty(emailInput) && validator.isEmail(emailInput) });
     }

@@ -61,6 +61,7 @@ export default function LoginScreen({ navigation }) {
     }
 
     function emailHandler(emailInput) {
+        emailInput = emailInput.toLowerCase();
         setCredentials({ ...credentials, email: emailInput });
         setCredentialsValid({ ...credentialsValid, email: !validator.isEmpty(emailInput) });
     }
