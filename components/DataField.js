@@ -13,6 +13,11 @@ export default function DataField({ label, placeholder, text, secureEntry, input
         setIsFocused(false)
     }
 
+    function prepareInput(input) {
+        input = input.trim();
+        return input;
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
@@ -22,7 +27,7 @@ export default function DataField({ label, placeholder, text, secureEntry, input
                 placeholder={placeholder}
                 placeholderTextColor={Colors['steel-light']}
                 secureTextEntry={secureEntry}
-                onChangeText={e => { inputHandler(e); isValid; }}
+                onChangeText={input => { inputHandler(prepareInput(input)); isValid; }}
                 onFocus={focusHandler}
                 onBlur={blurHandler}
             />
